@@ -54,7 +54,6 @@ def parse_args(args=None, namespace=None):
     )
     parser.add_argument(
         "--aug",
-        action=argparse.BooleanOptionalAction,
         default=True,
         help="whether to use data augmentation",
     )
@@ -83,13 +82,11 @@ def parse_args(args=None, namespace=None):
     )
     parser.add_argument(
         "--abs_pos_emb",
-        action=argparse.BooleanOptionalAction,
         default=True,
         help="whether to use absolute positional embedding",
     )
     parser.add_argument(
         "--rel_pos_emb",
-        action=argparse.BooleanOptionalAction,
         default=False,
         help="whether to use relative positional embedding",
     )
@@ -108,7 +105,6 @@ def parse_args(args=None, namespace=None):
     )
     parser.add_argument(
         "--early_stopping",
-        action=argparse.BooleanOptionalAction,
         default=True,
         help="whether to use early stopping",
     )
@@ -284,6 +280,11 @@ def main():
         attn_dropout=args.dropout,
         ff_dropout=args.dropout,
     ).to(device)
+
+    # Load the checkpoint
+    if args.checkpoint != "":
+        model.load_state_dict(torch.load(args.checkpoint, map_location=device), strict=False)
+        logging.info(f"Loaded the model weights from: {args.checkpoint}")
 
     # Summarize the model
     n_parameters = sum(p.numel() for p in model.parameters())

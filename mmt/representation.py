@@ -9,7 +9,7 @@ import pretty_midi
 import utils
 
 # Configuration
-RESOLUTION = 12
+RESOLUTION = 24
 MAX_BEAT = 1024
 MAX_DURATION = 384  # Remember to modify known durations as well!
 
